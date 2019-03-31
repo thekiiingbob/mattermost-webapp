@@ -90,6 +90,7 @@ export default class UserListRow extends React.Component {
             <div
                 key={this.props.user.id}
                 className='more-modal__row'
+                id={'bob'}//{`user_id_${this.props.user.id}`}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}

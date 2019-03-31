@@ -314,6 +314,7 @@ export default class SystemUsersList extends React.Component {
                     term={this.props.term}
                     onTermChange={this.props.onTermChange}
                     rowComponentType={UserListRowWithError}
+                    id={'systemConsoleUserList'}
                 />
                 <ManageTeamsModal
                     user={this.state.user}

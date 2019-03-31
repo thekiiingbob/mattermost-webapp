@@ -390,6 +390,7 @@ export default class SystemUsersDropdown extends React.Component {
                             <MenuItemAction
                                 onClick={this.handleManageRoles}
                                 text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
+                                id='manageRolesMenuItem'
                             />
                             <MenuItemAction
                                 show={showManageTeams}

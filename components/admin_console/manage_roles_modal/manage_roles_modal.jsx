@@ -306,6 +306,7 @@ export default class ManageRolesModal extends React.PureComponent {
                                     type='radio'
                                     checked={this.state.isSystemAdmin}
                                     onChange={this.handleSystemAdminChange}
+                                    id='systemAdminRadio'
                                 />
                                 <FormattedMessage
                                     id='admin.manage_roles.systemAdmin'
@@ -320,6 +321,7 @@ export default class ManageRolesModal extends React.PureComponent {
                                     type='radio'
                                     checked={!this.state.isSystemAdmin}
                                     onChange={this.handleSystemAdminChange}
+                                    id='systemMemberRadio'
                                 />
                                 <FormattedMessage
                                     id='admin.manage_roles.systemMember'
@@ -368,6 +370,7 @@ export default class ManageRolesModal extends React.PureComponent {
                         type='button'
                         className='btn btn-primary'
                         onClick={this.handleSave}
+                        id='saveRoleButton'
                     >
                         <FormattedMessage
                             id='admin.manage_roles.save'
