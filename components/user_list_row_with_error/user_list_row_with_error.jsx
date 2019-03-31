@@ -114,6 +114,7 @@ export default class UserListRowWithError extends React.Component {
             <div
                 key={this.props.user.id}
                 className='more-modal__row'
+                id={`user_id_${this.props.user.id}`}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
@@ -141,6 +142,7 @@ export default class UserListRowWithError extends React.Component {
                         </div>
                         <div
                             className='more-modal__actions'
+                            id='moreActions'
                         >
                             {buttons}
                         </div>
