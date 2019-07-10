@@ -9,10 +9,10 @@
 
 describe('Teams Suite', () => {
     it('TS14868 Team Admin can use Next button to page through list in Manage Members', () => {
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
 
         // # Create new team and visit its URL
-        cy.apiCreateTeam('test-team', 'Test Team').then((createResponse) => {
+        mm.api.team.create('test-team', 'Test Team').then((createResponse) => {
             const testTeam = createResponse.body;
             cy.visit(`/${testTeam.name}`);
 

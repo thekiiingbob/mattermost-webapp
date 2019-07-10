@@ -12,8 +12,8 @@ import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 function removeTeamMember(teamURL, username) {
-    cy.apiLogout();
-    cy.apiLogin('sysadmin');
+    mm.api.user.logout();
+    mm.api.user.login('sysadmin');
     cy.visit(`/${teamURL}`);
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#manageMembers').click();
@@ -25,7 +25,7 @@ function removeTeamMember(teamURL, username) {
 describe('Teams Suite', () => {
     it('TS12995 Cancel out of leaving a team', () => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // * check the team name
@@ -68,8 +68,8 @@ describe('Teams Suite', () => {
         const offTopicURL = `/${teamURL}/channels/off-topic`;
 
         // # Login as System Admin, update teammate name display preference to "username" and visit "/"
-        cy.apiLogin('sysadmin');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        mm.api.user.login('sysadmin');
+        mm.userPrefs.saveTeammateNameDisplay('username');
         cy.visit('/');
 
         // # Create team
@@ -103,8 +103,8 @@ describe('Teams Suite', () => {
         cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the channel by you.`);
 
         // # Login as user added to Team, update teammate name display preference to "username" and reload
-        cy.apiLogin(user.username);
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        mm.api.user.login(user.username);
+        mm.userPrefs.saveTeammateNameDisplay('username');
         cy.reload();
 
         // * The added user sees the new team added to the team sidebar
@@ -121,7 +121,7 @@ describe('Teams Suite', () => {
     });
 
     it('TS14633 Leave all teams', () => {
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
+        mm.api.config.update({EmailSettings: {RequireEmailVerification: false}});
 
         // # Login as new user
         cy.loginAsNewUser();

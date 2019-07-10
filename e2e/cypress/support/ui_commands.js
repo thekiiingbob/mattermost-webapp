@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import mm from '../mm';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -11,8 +12,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    cy.apiLogin('user-1', {otherUsername, otherPassword, otherURL});
+Cypress.Commands.add('toMainChannelView', (username = 'user-1') => {
+    mm.api.user.login(username);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -39,7 +40,7 @@ Cypress.Commands.add('getSubpath', () => {
 // Go to Account Settings modal
 Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
     if (!isLoggedInAlready) {
-        cy.apiLogin(username, {otherUsername, otherPassword, otherURL});
+        mm.api.user.login(username, {otherUsername, otherPassword, otherURL});
     }
 
     cy.visit('/');

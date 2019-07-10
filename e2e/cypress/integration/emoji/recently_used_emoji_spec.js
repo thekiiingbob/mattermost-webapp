@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Recent Emoji', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin();
+        mm.api.user.login();
         cy.visit('/');
     });
 

@@ -14,9 +14,10 @@ let testTeam;
 describe('Message Draft and Switch Channels', () => {
     before(() => {
         // # Login as new user
+        mm.api.user.login('sysadmin');
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            mm.api.team.create('test-team', 'Test Team').then((response) => {
                 testTeam = response.body;
                 cy.visit(`/${testTeam.name}`);
             });

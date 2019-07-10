@@ -88,6 +88,9 @@
         "max-nested-callbacks": 0,
         "no-process-env": 0,
         "no-unused-expressions": 0
+      },
+      "globals": {
+         "mm": true
       }
     }
   ]

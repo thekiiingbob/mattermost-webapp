@@ -26,7 +26,7 @@ function verifySystemMessage(post) {
 describe('MM-15240 - no status on a system message', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // # Post a regular message
@@ -46,7 +46,7 @@ describe('MM-15240 - no status on a system message', () => {
     displayTypes.forEach((type) => {
         it(`should have no status with ${type} display`, () => {
             // # Set message display
-            cy.apiSaveMessageDisplayPreference(type);
+            mm.userPrefs.saveMessageDisplay(type);
 
             // # Get last post
             cy.getLastPostId().then((postId) => {

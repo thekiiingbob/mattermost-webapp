@@ -27,7 +27,7 @@ function createNewDMChannel(channelname) {
 describe('Search in DMs', () => {
     it('S14672 Search "in:[username]" returns results in DMs', () => {
         // # Login and navigate to the app
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
         const message = 'Hello' + Date.now();
 

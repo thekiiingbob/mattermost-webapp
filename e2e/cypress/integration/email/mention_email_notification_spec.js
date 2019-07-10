@@ -18,7 +18,8 @@ describe('Email notification', () => {
     let mentionedUser;
 
     before(() => {
-        cy.apiGetConfig().then((response) => {
+        mm.api.user.login('sysadmin');
+        mm.api.config.get().then((response) => {
             config = response.body;
         });
 
@@ -34,7 +35,7 @@ describe('Email notification', () => {
 
     it('post a message that mentions a user', () => {
         // # Login as user-1 and visit town-square channel
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/ad-1/channels/town-square');
 
         // # Post a message mentioning the new user

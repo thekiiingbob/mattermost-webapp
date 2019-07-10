@@ -79,7 +79,7 @@ function createNewChannel(name, isPrivate = false) {
     const makePrivate = isPrivate ? 'P' : '0';
 
     return cy.getCurrentTeamId().then((teamId) => {
-        return cy.apiCreateChannel(teamId, name, name, makePrivate, 'Let us chat here').
+        return cy.api.channel.create(teamId, name, name, makePrivate, 'Let us chat here').
             its('body');
     });
 }
@@ -87,7 +87,7 @@ function createNewChannel(name, isPrivate = false) {
 describe('Channel', () => {
     beforeEach(() => {
         // Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
     });
 

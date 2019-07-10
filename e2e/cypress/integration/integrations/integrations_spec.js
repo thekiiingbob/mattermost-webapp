@@ -21,10 +21,10 @@ describe('Integrations page', () => {
                 EnableBotAccountCreation: true,
             },
         };
-        cy.apiUpdateConfig(newSettings);
+        mm.api.config.update(newSettings);
 
         // # Login as sysadmin
-        cy.apiLogin('sysadmin');
+        mm.api.user.login('sysadmin');
 
         // # Go to integrations
         cy.visit('/ad-1/integrations');

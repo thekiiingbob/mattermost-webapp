@@ -10,7 +10,7 @@
 describe('Message Draft with attachment and Switch Channels', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
     });
     const channelName1 = `test-channel-1-${Date.now()}`;
@@ -21,7 +21,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
     it('M14126 Message Draft Pencil Icon - No text, only file attachment', () => {
         // # Create new test channel
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, channelName1, channelName1, 'O', 'Test channel').then((response) => {
+            mm.api.channel.create(teamId, channelName1, channelName1, 'O', 'Test channel').then((response) => {
                 testChannel1 = response.body;
                 cy.get(`#sidebarItem_${testChannel1.name}`).click({force: true});
 
@@ -35,7 +35,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
                 cy.fileUpload('#fileUploadInput');
             });
 
-            cy.apiCreateChannel(teamId, channelName2, channelName2, 'O', 'Test channel').then((response) => {
+            mm.api.channel.create(teamId, channelName2, channelName2, 'O', 'Test channel').then((response) => {
                 testChannel2 = response.body;
 
                 // # Go to test channel without submitting the draft in the previous channel

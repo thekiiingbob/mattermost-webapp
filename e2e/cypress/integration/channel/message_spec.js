@@ -36,7 +36,7 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 describe('Message', () => {
     beforeEach(() => {
         // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // # Change settings to allow @channel messages
@@ -105,9 +105,10 @@ describe('Message', () => {
 
     it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
         // # Login as new user
+        mm.api.user.login('sysadmin');
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            mm.api.team.create('test-team', 'Test Team').then((response) => {
                 cy.visit(`/${response.body.name}`);
             });
         });

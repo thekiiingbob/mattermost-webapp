@@ -39,7 +39,7 @@ function navigateToThemeSettings() {
 describe('AS14319 Theme Colors - Code', () => {
     before(() => {
         // # Login and navigate to the app
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // # Enter in code block for message

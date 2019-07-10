@@ -10,13 +10,13 @@
 describe('Account Settings > Display > Message Display', () => {
     before(() => {
         // # Change message display setting to compact
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.changeMessageDisplaySetting('COMPACT');
     });
 
     after(() => {
         // Revert setting so it does not impact other tests
-        cy.apiSaveMessageDisplayPreference('clean');
+        mm.userPrefs.saveMessageDisplay('clean');
     });
 
     it('M14283 Compact view: Line breaks remain intact after editing', () => {

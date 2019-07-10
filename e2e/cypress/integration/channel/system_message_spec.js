@@ -49,10 +49,10 @@ function getLines(e) {
 describe('System Message', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        mm.userPrefs.saveTeammateNameDisplay('username');
     });
 
     it('MM-14636 - Validate that system message is wrapping properly', () => {

@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Header', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
     });
 
@@ -70,7 +70,7 @@ describe('Header', () => {
         // * Check that no elippsis is present
         cy.get('#header-popover > div.popover-content').should('have.html', `<blockquote>\n<p>${header}</p>\n</blockquote>`);
 
-        cy.apiSaveMessageDisplayPreference();
+        mm.userPrefs.saveMessageDisplay();
     });
     it('S13483 - Cleared search term should not reappear as RHS is opened and closed', () => {
         // # Place the focus on the search box and search for something

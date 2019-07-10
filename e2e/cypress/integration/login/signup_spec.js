@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import mm from '../../mm';
+
 let config;
 
 describe('Signup Email page', () => {
@@ -16,12 +18,14 @@ describe('Signup Email page', () => {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
-        cy.apiUpdateConfig(newSettings);
 
-        cy.apiGetConfig().then((response) => {
+        mm.api.user.login('sysadmin');
+        mm.api.config.update(newSettings);
+
+        mm.api.config.get().then((response) => {
             config = response.body;
         });
-        cy.apiLogout();
+        mm.api.user.logout();
 
         // # Go to signup email page
         cy.visit('/signup_email');

@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Edit Message', () => {
     beforeEach(() => {
         // # Login as "user-1"
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
     });
 
     it('M13909 Escape should not close modal when an autocomplete drop down is in use', () => {

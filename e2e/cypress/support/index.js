@@ -76,6 +76,10 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
+import mm from '../mm';
+
+global.mm = mm;
+
 // Add login cookies to whitelist to preserve it
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');

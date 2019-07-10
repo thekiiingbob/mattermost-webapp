@@ -34,7 +34,7 @@ function verifyLastPostStyle(expectedSize) {
 describe('Message', () => {
     it('M15011 - Emojis show as jumbo in reply thread', () => {
         // # Login and navigate to the app
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // # Post a message

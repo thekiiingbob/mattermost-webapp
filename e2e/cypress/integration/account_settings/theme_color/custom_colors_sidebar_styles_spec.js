@@ -44,13 +44,13 @@ function customColors(dropdownInt, dropdownName) {
 describe('AS14318 Theme Colors - Color Picker', () => {
     before(() => {
         // # Set default theme preference
-        cy.apiLogin('user-1');
-        cy.apiSaveThemePreference();
+        mm.api.user.login('user-1');
+        mm.userPrefs.saveTheme();
     });
 
     after(() => {
         // * Revert to default theme preference
-        cy.apiSaveThemePreference();
+        mm.userPrefs.saveTheme();
     });
 
     it('Theme Display should render in min setting view', () => {

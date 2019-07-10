@@ -10,7 +10,7 @@
 describe('Message', () => {
     it('M13326 Text in bullet points is the same size as text above and below it', () => {
         // # Login and navigate to the app
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // # Enter in text

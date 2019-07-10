@@ -15,22 +15,16 @@ const channelDisplayName = `Channel Switcher ${getRandomInt(9999).toString()}`;
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
+            mm.api.channel.create(teamId, 'channel-switcher', channelDisplayName).then((response) => {
                 testChannel = response.body;
             });
         });
 
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal(null, true);
-    });
-
-    after(() => {
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.apiDeleteChannel(channelId);
-        });
     });
 
     it('should render in min setting view', () => {

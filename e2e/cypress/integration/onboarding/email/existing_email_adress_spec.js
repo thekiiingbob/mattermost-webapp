@@ -39,7 +39,7 @@ describe('Email Address', () => {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
-        cy.apiUpdateConfig(newSettings);
+        mm.api.config.update(newSettings);
     });
 
     it('M14634 Should not create account with an existing email address', () => {
@@ -56,7 +56,7 @@ describe('Email Address', () => {
         cy.get('#createNewTeamLink').should('have.attr', 'href', '/create_team').and('be.visible', 'contain', 'Create a new team');
 
         // # Logout and signup another user with the same email but different username and password
-        cy.apiLogout();
+        mm.api.user.logout();
         signupWithEmail('unique-2', 'unique2pw');
 
         // * Error message displays below the Create Account button that says "An account with that email already exists"

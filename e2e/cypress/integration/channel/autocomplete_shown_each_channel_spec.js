@@ -10,7 +10,7 @@
 describe('Identical Message Drafts', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         // # Clear channel textbox

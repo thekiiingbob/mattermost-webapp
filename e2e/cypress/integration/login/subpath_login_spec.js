@@ -7,10 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import mm from '../../mm';
+
 describe('Cookie with Subpath', () => {
     before(() => {
         // # Logout to remove whitelisted cookies
-        cy.apiLogout();
+        mm.api.user.logout();
     });
 
     it('should generate cookie with subpath', () => {

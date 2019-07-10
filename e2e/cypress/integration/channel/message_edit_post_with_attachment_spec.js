@@ -12,8 +12,8 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('MM-13697 Edit Post with attachment', () => {
     before(() => {
         // # Login, set display preference and go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveMessageDisplayPreference();
+        mm.api.user.login('user-1');
+        mm.userPrefs.saveMessageDisplay();
         cy.visit('/ad-1/channels/town-square');
     });
 

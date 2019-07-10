@@ -15,14 +15,14 @@ let config;
 
 describe('Signin/Authentication', () => {
     before(() => {
-        cy.apiGetConfig().then((response) => {
+        mm.api.config.get().then((response) => {
             config = response.body;
         });
     });
 
     it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
         cy.loginAsNewUser().then((user) => {
-            cy.apiLogout();
+            mm.api.user.logout();
 
             resetPasswordAndLogin(user, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
         });
@@ -134,6 +134,6 @@ function resetPasswordAndLogin(user, feedbackEmail, supportEmail) {
         cy.url().should('contain', '/channels/town-square');
 
         // # Logout
-        cy.apiLogout();
+        mm.api.user.logout();
     });
 }

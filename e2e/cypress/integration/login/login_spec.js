@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import mm from '../../mm';
 let config;
 
 describe('Login page', () => {
@@ -16,14 +17,16 @@ describe('Login page', () => {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };
-        cy.apiUpdateConfig(newSettings);
 
-        cy.apiGetConfig().then((response) => {
+        mm.api.user.login('sysadmin');
+        mm.api.config.update(newSettings);
+
+        mm.api.config.get().then((response) => {
             config = response.body;
         });
 
         // # Go to login page
-        cy.apiLogout();
+        mm.api.user.logout();
 
         cy.visit('/login');
     });

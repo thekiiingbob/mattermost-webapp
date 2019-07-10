@@ -26,7 +26,7 @@ function checkEmojiSize(message, emojis, isJumbo) {
 describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
     });
 

@@ -10,7 +10,7 @@
 describe('Search', () => {
     it('S14548 Search results Right-Hand-Side: Post a comment', () => {
         // # Login and navigate to the app
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
 
         const message = `asparagus${Date.now()}`;

@@ -35,11 +35,11 @@ describe('MM-15887 Interactive menus - basic options', () => {
                 EnablePostIconOverride: true,
             },
         };
-        cy.apiUpdateConfig(newSettings);
+        mm.api.config.update(newSettings);
 
         // # Login as sysadmin and ensure that teammate name display setting us set to default 'username'
-        cy.apiLogin('sysadmin');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        mm.api.user.login('sysadmin');
+        mm.userPrefs.saveTeammateNameDisplay('username');
 
         // # Visit '/' and create incoming webhook
         cy.visit('/');

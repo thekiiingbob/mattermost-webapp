@@ -35,7 +35,7 @@ describe('Markdown message', () => {
                 RemoteImageProxyOptions: '',
             },
         };
-        cy.apiUpdateConfig(newSettings);
+        mm.api.config.update(newSettings);
 
         // # Login as new user
         cy.loginAsNewUser().then(() => {

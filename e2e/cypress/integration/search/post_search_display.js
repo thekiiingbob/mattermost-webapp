@@ -10,7 +10,7 @@
 describe('Post search display', () => {
     it('S14252 After clearing search query, search options display', () => {
         // # Login and navigate to the app
-        cy.apiLogin('user-1');
+        mm.api.user.login('user-1');
         cy.visit('/');
         const searchWord = 'Hello';
 
