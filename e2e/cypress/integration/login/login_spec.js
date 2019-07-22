@@ -9,7 +9,38 @@
 
 let config;
 
-describe('@smoke Login page', () => {
+async function mmIt(name, metadata = {}, testFn) {
+    const determineSkip = (testTags) => {
+        const tags = Cypress.env('tags');
+
+        if (tags) {
+            return !tags.map((tag) => {
+                return testTags.includes(tag);
+            }).some((result) => {
+                return result === true;
+            });
+        }
+
+        return false;
+    };
+
+    const shouldSkip = metadata.tags ? determineSkip(metadata.tags) : false;
+    console.log('RUNNING TEST WITH DATA', metadata, 'SHOULD SKIP IS', shouldSkip);
+
+    if (shouldSkip) {
+        console.log('SKIPPING TEST');
+        return it.skip(name, () => {
+            // empty body for test
+        });
+    }
+
+    return it(name, function() {
+        this.test.metadata = metadata;
+        testFn();
+    });
+}
+
+describe('Login page', () => {
     before(() => {
         // Disable other auth options
         const newSettings = {
@@ -28,7 +59,7 @@ describe('@smoke Login page', () => {
         cy.visit('/login');
     });
 
-    it('should render', () => {
+    mmIt('should render', {tags: '@smoke', testId: 'foo'}, () => {
         // * Check that the login section is loaded
         cy.get('#login_section').should('be.visible');
 
@@ -36,65 +67,65 @@ describe('@smoke Login page', () => {
         cy.title().should('include', config.TeamSettings.SiteName);
     });
 
-    it('should match elements, body', () => {
-        // * Check elements in the body
-        cy.get('#login_section').should('be.visible');
-        cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
-        cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
-        cy.get('#loginId').should('be.visible');
-        cy.get('#loginId').
-            should('be.visible').
-            and(($loginTextbox) => {
-                const placeholder = $loginTextbox[0].placeholder;
-                expect(placeholder).to.match(/Email/);
-                expect(placeholder).to.match(/Username/);
-            });
-        cy.get('#loginPassword').should('be.visible');
-        cy.get('#loginPassword').should('have.attr', 'placeholder', 'Password');
-        cy.get('#loginButton').should('be.visible');
-        cy.get('#loginButton').should('contain', 'Sign in');
-        cy.get('#login_forgot').should('contain', 'I forgot my password');
-    });
+    // mmIt('should match elements, body', () => {
+    //     // * Check elements in the body
+    //     cy.get('#login_section').should('be.visible');
+    //     cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
+    //     cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
+    //     cy.get('#loginId').should('be.visible');
+    //     cy.get('#loginId').
+    //         should('be.visible').
+    //         and(($loginTextbox) => {
+    //             const placeholder = $loginTextbox[0].placeholder;
+    //             expect(placeholder).to.match(/Email/);
+    //             expect(placeholder).to.match(/Username/);
+    //         });
+    //     cy.get('#loginPassword').should('be.visible');
+    //     cy.get('#loginPassword').should('have.attr', 'placeholder', 'Password');
+    //     cy.get('#loginButton').should('be.visible');
+    //     cy.get('#loginButton').should('contain', 'Sign in');
+    //     cy.get('#login_forgot').should('contain', 'I forgot my password');
+    // });
 
-    it('should match elements, footer', () => {
-        // * Check elements in the footer
-        cy.get('#footer_section').should('be.visible');
-        cy.get('#company_name').should('contain', 'Mattermost');
-        cy.get('#copyright').should('contain', '© 2015-');
-        cy.get('#copyright').should('contain', 'Mattermost, Inc.');
-        cy.get('#about_link').should('contain', 'About');
-        cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink);
-        cy.get('#privacy_link').should('contain', 'Privacy');
-        cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
-        cy.get('#terms_link').should('contain', 'Terms');
-        cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
-        cy.get('#help_link').should('contain', 'Help');
-        cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink);
-    });
+    // mmIt('should match elements, footer', () => {
+    //     // * Check elements in the footer
+    //     cy.get('#footer_section').should('be.visible');
+    //     cy.get('#company_name').should('contain', 'Mattermost');
+    //     cy.get('#copyright').should('contain', '© 2015-');
+    //     cy.get('#copyright').should('contain', 'Mattermost, Inc.');
+    //     cy.get('#about_link').should('contain', 'About');
+    //     cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink);
+    //     cy.get('#privacy_link').should('contain', 'Privacy');
+    //     cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
+    //     cy.get('#terms_link').should('contain', 'Terms');
+    //     cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
+    //     cy.get('#help_link').should('contain', 'Help');
+    //     cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink);
+    // });
 
-    it('should login then logout by user-1', () => {
-        // # Enter "user-1" on Email or Username input box
-        cy.get('#loginId').should('be.visible').type('user-1');
+    // mmIt('should login then logout by user-1', () => {
+    //     // # Enter "user-1" on Email or Username input box
+    //     cy.get('#loginId').should('be.visible').type('user-1');
 
-        // # Enter "user-1" on "Password" input box
-        cy.get('#loginPassword').should('be.visible').type('user-1');
+    //     // # Enter "user-1" on "Password" input box
+    //     cy.get('#loginPassword').should('be.visible').type('user-1');
 
-        // # Click "Sign in" button
-        cy.get('#loginButton').should('be.visible').click();
+    //     // # Click "Sign in" button
+    //     cy.get('#loginButton').should('be.visible').click();
 
-        // * Check that the Signin button change with rotating icon and "Signing in..." text
-        cy.get('#loadingSpinner').should('be.visible');
-        cy.get('#loadingSpinner').should('contain', 'Signing in...');
+    //     // * Check that the Signin button change with rotating icon and "Signing in..." text
+    //     cy.get('#loadingSpinner').should('be.visible');
+    //     cy.get('#loadingSpinner').should('contain', 'Signing in...');
 
-        // * Check that it login successfully and it redirects into the main channel page
-        cy.get('#channel_view').should('be.visible');
+    //     // * Check that it login successfully and it redirects into the main channel page
+    //     cy.get('#channel_view').should('be.visible');
 
-        // # Click hamburger main menu button
-        cy.get('#sidebarHeaderDropdownButton').click();
-        cy.get('#logout').should('be.visible').click();
+    //     // # Click hamburger main menu button
+    //     cy.get('#sidebarHeaderDropdownButton').click();
+    //     cy.get('#logout').should('be.visible').click();
 
-        // * Check that it logout successfully and it redirects into the login page
-        cy.get('#login_section').should('be.visible');
-        cy.location('pathname').should('contain', '/login');
-    });
+    //     // * Check that it logout successfully and it redirects into the login page
+    //     cy.get('#login_section').should('be.visible');
+    //     cy.location('pathname').should('contain', '/login');
+    // });
 });
