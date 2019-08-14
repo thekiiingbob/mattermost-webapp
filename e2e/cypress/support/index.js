@@ -14,6 +14,10 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import addContext from 'mochawesome/addContext';
 
+import bobit from './bobit.js';
+
+global.bobit = bobit;
+
 Cypress.on('test:after:run', (test, runnable) => {
     console.log('TEST IS', test, 'RUNNABLE IS', runnable);
 
@@ -77,7 +81,7 @@ Cypress.on('test:after:run', (test, runnable) => {
         });
     }
 
-    if (runnable.metadata.testId) {
+    if (runnable.metadata && runnable.metadata.testId) {
         const testData = {status: runnable.state, fullTitle: runnable.fullTitle(), title: runnable.title, error: runnable.err};
         console.log('Test has a test id, can report to wherever...', runnable.metadata.testId, testData);
     }
