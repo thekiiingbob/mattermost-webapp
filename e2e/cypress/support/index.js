@@ -79,6 +79,11 @@ Cypress.on('test:after:run', (test, runnable) => {
             title: 'Failing Screenshot: >> screenshots/' + filename,
             value: 'screenshots/' + filename,
         });
+
+        addContext({test}, {
+            title: 'metadata',
+            value: runnable.metadata,
+        });
     }
 
     if (runnable.metadata && runnable.metadata.testId) {
