@@ -14,13 +14,9 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import addContext from 'mochawesome/addContext';
 
-import bobit from './bobit.js';
-
-global.bobit = bobit;
+require('./metadataIt.js/index.js');
 
 Cypress.on('test:after:run', (test, runnable) => {
-    console.log('TEST IS', test, 'RUNNABLE IS', runnable);
-
     // Only if the test is failed do we want to add
     // the additional context of the screenshot.
     if (test.state === 'failed') {
@@ -79,16 +75,13 @@ Cypress.on('test:after:run', (test, runnable) => {
             title: 'Failing Screenshot: >> screenshots/' + filename,
             value: 'screenshots/' + filename,
         });
+    }
 
+    if (runnable.metadata && runnable.metadata.testId) {
         addContext({test}, {
             title: 'metadata',
             value: runnable.metadata,
         });
-    }
-
-    if (runnable.metadata && runnable.metadata.testId) {
-        const testData = {status: runnable.state, fullTitle: runnable.fullTitle(), title: runnable.title, error: runnable.err};
-        console.log('Test has a test id, can report to wherever...', runnable.metadata.testId, testData);
     }
 });
 
@@ -96,41 +89,3 @@ Cypress.on('test:after:run', (test, runnable) => {
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
 });
-
-// before(function() {
-//     // console.log('BEFORE MOCHA TEST', this.test)
-//     // this.test.parent.suites.forEach(checkSuite);
-// });
-
-// const shouldSkip = (test) => {
-//     const tags = Cypress.env('tags');
-
-//     if (tags) {
-//         return !tags.map((tag) => {
-//             return test.fullTitle().includes(tag);
-//         }).some((result) => {
-//             return result === true;
-//         });
-//     }
-
-//     return false;
-// };
-
-// const checkSuite = (suite) => {
-//     if (suite.pending) {
-//         return;
-//     }
-
-//     if (shouldSkip(suite)) {
-//         suite.pending = true;
-//         return;
-//     }
-
-//     (suite.tests || []).forEach((test) => {
-//         if (shouldSkip(test)) {
-//             test.pending = true;
-//         }
-//     });
-
-//     (suite.suites || []).forEach(checkSuite);
-// };

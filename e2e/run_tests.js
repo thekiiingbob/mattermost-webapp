@@ -85,17 +85,17 @@ async function runTests() {
 
     const mochawesomeReportDir = 'results/mochawesome-report';
 
-    for (const dir of testDirs) {
-        const {totalFailed} = await cypress.run({
-            spec: './cypress/integration/bob/**/*',
+    // for (const dir of testDirs) {
+    const {totalFailed} = await cypress.run({
 
-            // spec: `./cypress/integration/${dir}/**/*`,
-            config: {
-                screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
-                trashAssetsBeforeRuns: false,
-            },
-            reporter: 'cypress-multi-reporters',
-            reporterOptions:
+        // spec: `./cypress/integration/${dir}/**/*`,
+        spec: './cypress/integration/bob/**/*',
+        config: {
+            screenshotsFolder: `${mochawesomeReportDir}/screenshots`,
+            trashAssetsBeforeRuns: false,
+        },
+        reporter: 'cypress-multi-reporters',
+        reporterOptions:
                 {
                     reporterEnabled: 'mocha-junit-reporters, mochawesome',
                     mochaJunitReportersReporterOptions: {
@@ -104,20 +104,24 @@ async function runTests() {
                     },
                     mochawesomeReporterOptions: {
                         reportDir: mochawesomeReportDir,
-                        reportFilename: `mochawesome-${dir}`,
+
+                        // reportFilename: `mochawesome-${dir}`,
+                        reportFilename: 'mochawesome-bob',
                         quiet: true,
                         overwrite: false,
                         html: false,
                         json: true,
                     },
                 },
-        });
+    });
 
-        failedTests += totalFailed;
-    }
+    failedTests += totalFailed;
+
+    // }
 
     // Merge all json reports into one single json report
     const jsonReport = await merge({reportDir: mochawesomeReportDir});
+    writeJsonToFile(jsonReport, 'mergedReport.json', mochawesomeReportDir);
 
     // Generate short summary to easily pickup via hook
     const summary = generateShortSummary(jsonReport);

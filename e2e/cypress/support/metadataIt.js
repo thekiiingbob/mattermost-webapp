@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-module.exports = async function bobit(name, metadataOrTestFn, testFn = null) {
-    console.log('metadataOrTestFn type', typeof metadataOrTestFn);
+
+// Capture the original 'it' from mocha
+const mochaIt = global.it;
+
+async function metadataIt(name, metadataOrTestFn, testFn = null) {
     const hasMetadata = typeof metadataOrTestFn === 'object';
 
     // If we have metadata, use testFn, if not use the 2nd
@@ -13,6 +16,8 @@ module.exports = async function bobit(name, metadataOrTestFn, testFn = null) {
     const determineSkip = (testTags) => {
         const tags = Cypress.env('tags');
 
+        // If there are tags, we only want to run tests
+        // that include those tags
         if (tags) {
             return !tags.map((tag) => {
                 return testTags.includes(tag);
@@ -31,7 +36,7 @@ module.exports = async function bobit(name, metadataOrTestFn, testFn = null) {
         const shouldSkip = determineSkip(actualMetadata.tags);
 
         if (shouldSkip) {
-            return it.skip(name, () => {
+            return mochaIt.skip(name, () => {
             // empty body for test
             });
         }
@@ -40,8 +45,12 @@ module.exports = async function bobit(name, metadataOrTestFn, testFn = null) {
     // Return the native mocha 'it' and attach
     // our metadata to the mocha context so it
     // is available for reporting
-    return it(name, function() {
+    return mochaIt(name, function() {
         this.test.metadata = actualMetadata;
         actualTestFn();
     });
-};
+}
+
+// Reassign the global 'it' with our custom function
+global.it = metadataIt;
+
